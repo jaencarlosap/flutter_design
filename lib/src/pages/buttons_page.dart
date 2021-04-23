@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
@@ -15,6 +16,7 @@ class ButtonsPage extends StatelessWidget {
             child: Column(
               children: [
                 _titles(),
+                _roundedButtons(),
               ],
             ),
           ),
@@ -100,32 +102,96 @@ class ButtonsPage extends StatelessWidget {
   }
 
   Widget _bottomNavigatorBar(BuildContext context) {
-    return Theme(
-      data: Theme.of(context).copyWith(
-        canvasColor: Color.fromRGBO(55, 57, 84, 1.0),
-        primaryColor: Colors.pinkAccent,
-        textTheme: Theme.of(context).textTheme.copyWith(
-              caption: TextStyle(
-                color: Color.fromRGBO(116, 117, 152, 1.0),
+    return BottomNavigationBar(
+      backgroundColor: Color.fromRGBO(55, 57, 84, 1.0),
+      selectedItemColor: Colors.pinkAccent,
+      unselectedItemColor: Color.fromRGBO(116, 117, 152, 1.0),
+      items: [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.calendar_today, size: 30.0),
+          label: '',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.bubble_chart, size: 30.0),
+          label: '',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.supervisor_account, size: 30.0),
+          label: '',
+        ),
+      ],
+    );
+  }
+
+  Widget _roundedButtons() {
+    return Table(
+      children: [
+        TableRow(
+          children: [
+            _createButtonRounded(Colors.blue, Icons.border_all, 'general'),
+            _createButtonRounded(
+                Colors.purpleAccent, Icons.directions_bus, 'Bus'),
+          ],
+        ),
+        TableRow(
+          children: [
+            _createButtonRounded(Colors.pinkAccent, Icons.shop, 'Buy'),
+            _createButtonRounded(
+                Colors.orange, Icons.insert_drive_file, 'File'),
+          ],
+        ),
+        TableRow(
+          children: [
+            _createButtonRounded(
+                Colors.blueAccent, Icons.movie_filter, 'Entertaiment'),
+            _createButtonRounded(Colors.green, Icons.cloud, 'Grocery'),
+          ],
+        ),
+        TableRow(
+          children: [
+            _createButtonRounded(Colors.red, Icons.collections, 'Photos'),
+            _createButtonRounded(Colors.teal, Icons.help_outline, 'Help'),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _createButtonRounded(Color color, IconData icon, String text) {
+    return ClipRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 1.0, sigmaY: 1.0),
+        child: Container(
+          height: 180.0,
+          margin: EdgeInsets.all(15.0),
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(62, 66, 107, 0.7),
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              SizedBox(height: 5.0),
+              CircleAvatar(
+                backgroundColor: color,
+                radius: 35.0,
+                child: Icon(
+                  icon,
+                  color: Colors.white,
+                  size: 30.0,
+                ),
               ),
-            ),
-      ),
-      child: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today, size: 30.0),
-            label: '',
+              Text(
+                text,
+                style: TextStyle(color: color),
+              ),
+              SizedBox(height: 5.0),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bubble_chart, size: 30.0),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.supervisor_account, size: 30.0),
-            label: '',
-          ),
-        ],
+        ),
       ),
     );
   }
+//end
+
 }
